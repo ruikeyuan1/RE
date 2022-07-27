@@ -11,6 +11,7 @@ urlpatterns = [
     path('reviews/', views.reviews, name="reviews"),
     path('media/', views.media, name="media"),
     path('test/', views.test, name="test"),
+    path('slotValidation/', views.slotValidation, name="slotValidation"),
     # Vnizu hueta ot dalbaeba
     path('create_timeslot_table/', views.create_timeslot_table),
     path('delete_timeslot_table/', views.delete_timeslot_table),

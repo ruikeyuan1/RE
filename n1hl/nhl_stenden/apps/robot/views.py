@@ -1,5 +1,5 @@
 from django.shortcuts import render, HttpResponse
-from robot.models import Room
+from .models import *
 
 def livestream(req):
     return render(req, 'robot/liveStream.html')
@@ -9,12 +9,14 @@ def roomSearch(req):
         if 'roomnumber' in req.POST.keys():
             controlRobot = req.POST['roomnumber']
             if Room.objects.filter(room_id=req.POST['roomnumber']).exists():
-                # return render(req, 'robot/liveStream.html',{'message': "directing to room"})
+                #return render(req, 'robot/liveStream.html',{'message': "directing to room"})
                 success = 'directing to room' + req.POST['roomnumber'] + '...'
+                print(success)
                 return HttpResponse(success)
             else:
-                # return render(req, 'robot/liveStream.html',{'message': "input does not match any data in the database"})
+                #return render(req, 'robot/liveStream.html',{'message': "input does not match any data in the database"})
                 success = 'input does not match any data in the database'
+                print(success)
                 return HttpResponse(success)
 
 def startTheRobot(req):

@@ -1,11 +1,14 @@
 import hashlib
-from django.shortcuts import render
-from django import forms
-from .models import TimeSlot, User
 from datetime import datetime, timedelta
+
+from django import forms
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import User, Review, Room, Zone
+from django.shortcuts import render
+from robot.models import Room, Zone
+# from main.models import
+from users.models import User, TimeSlot
+
 
 # Technical functions
 def logOut(request):
@@ -18,113 +21,154 @@ def logOut(request):
 
 
 def md5(string):
-  return hashlib.md5(string.encode()).hexdigest()
+    return hashlib.md5(string.encode()).hexdigest()
+
 
 def isLogin(request):
-  name = request.session.get("user_name", "error")
-  token = request.session.get("user_token", "error")
+    name = request.session.get("user_name", "error")
+    token = request.session.get("user_token", "error")
 
-  if name == "error" or token == "error":
-    return False
+    if name == "error" or token == "error":
+        return False
 
+    account = User.objects.filter(username=name)
 
-  account = User.objects.filter(username=name)
+    if account.count() > 0:
+        account = account[0]
+        account_token = md5(str(account.username) + ":" + str(account.password) + ":" + str(account.birth_date))
+        print(account_token)
+        print(token)
 
-  if account.count() > 0:
-    account = account[0]
-    account_token = md5(str(account.username) + ":" + str(account.password) + ":" + str(account.birth_date))
-    print(account_token)
-    print(token)
-
-    if token == account_token:
-      return True
+        if token == account_token:
+            return True
+        else:
+            return False
     else:
-      return False
-  else:
-    return False
+        return False
+
 
 def test(request):
-  return render(request, 'main/test.html')
+    return render(request, 'main/test.html')
+
+
 # Request processing
 
 def home(request):
-  if not isLogin(request):
-    return HttpResponseRedirect("/login")
+    if not isLogin(request):
+        return HttpResponseRedirect("/login")
 
-  return render(request, 'main/home.html')
+    return render(request, 'main/home.html')
+
 
 def login(request):
-  if isLogin(request):
-    return HttpResponseRedirect("/")
+    if isLogin(request):
+        return HttpResponseRedirect("/")
 
-  return render(request, 'main/login.html')
+    return render(request, 'main/login.html')
+
 
 def registration(request):
-  if isLogin(request):
-    return HttpResponseRedirect("/")
+    if isLogin(request):
+        return HttpResponseRedirect("/")
 
-  return render(request, 'main/registration.html')
+    return render(request, 'main/registration.html')
+
 
 def room(request):
-  if not isLogin(request):
-    return HttpResponseRedirect("/login")
+    if not isLogin(request):
+        return HttpResponseRedirect("/login")
 
-  return render(request, 'main/room.html')
+    return render(request, 'main/room.html')
+
 
 def reviews(request):
-  if not isLogin(request):
-    return HttpResponseRedirect("/login")
+    if not isLogin(request):
+        return HttpResponseRedirect("/login")
 
-  if request.POST.get("rates") and int(request.POST.get("rates")) > 0 and int(request.POST.get("rates")) <= 5:
-    review = Review()
-    review.username = request.POST.get("name")
-    review.rates = request.POST.get("rates")
-    review.text = request.POST.get("text")
-    review.date = int(round(datetime.timestamp(datetime.now())))
-    review.save()
+    if request.POST.get("rates") and int(request.POST.get("rates")) > 0 and int(request.POST.get("rates")) <= 5:
+        review = Review()
+        review.username = request.POST.get("name")
+        review.rates = request.POST.get("rates")
+        review.text = request.POST.get("text")
+        review.date = int(round(datetime.timestamp(datetime.now())))
+        review.save()
 
-  return render(request, 'main/reviews.html')
+    return render(request, 'main/reviews.html')
+
 
 def media(request):
-  if not isLogin(request):
-    return HttpResponseRedirect("/login")
+    if not isLogin(request):
+        return HttpResponseRedirect("/login")
 
-  return render(request, 'main/media.html')
+    return render(request, 'main/media.html')
+
+
+# datetime.now().time()
+def slotValidation(request):
+    current_date = datetime.now().date()
+    current_time = datetime.now()
+    # end_Time = (current_time + timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
+    end_Time = current_time + timedelta(minutes=30)
+    end_Time = end_Time.time()
+    # start_Time = (current_time - timedelta(minutes=30)).strftime("%Y-%m-%d %H:%M:%S")
+    start_Time = current_time - timedelta(minutes=30)
+    start_Time = start_Time.time()
+    print(start_Time)
+    print(end_Time)
+    if TimeSlot.objects.filter(user_id_id=request.session['user_id'], date=current_date).exists():
+        # total = TimeSlot.objects.filter(user_id_id=request.session['user_id'],date=current_date).count()
+        if TimeSlot.objects.filter(user_id_id=request.session['user_id'], date=current_date,
+                                   start_time__gte=start_Time, start_time__lt=end_Time).exists():
+            if TimeSlot.objects.filter(user_id_id=request.session['user_id'], date=current_date,
+                                       end_time__gte=start_Time, end_time__lt=end_Time).exists():
+                return render(request, 'main/media.html', {'validationResult': True})
+        return render(request, 'main/media.html', {'validationResult': False})
+    return render(request, 'main/media.html', {'validationResult': False})
+
 
 # Vnizu hueta ot dalbaeba
 def delete_user_table(request):
     User.objects.all().delete()
     return HttpResponse("success")
 
+
 def delete_timeslot_table(request):
-    TimeSlot.objects.all().delete()
+    TimeSlot.objects.filter(time_slot_id=4).delete()
     return HttpResponse("success")
+
 
 def create_user_table(request):
-    User.objects.create(user_id=232212316, username="ricka", email="yuanruike2002@outlook.com", password="Keke1234",birth_date=20120909)
+    User.objects.create(user_id=232212316, username="ricka", email="yuanruike2002@outlook.com", password="Keke1234",
+                        birth_date=20120909)
     return HttpResponse("success")
 
+
 def create_timeslot_table(request):
-    TimeSlot.objects.create(time_slot_id=38, start_time='10:00', end_time='10:30', date="2022-06-14", user_id_id=232212316)
+    TimeSlot.objects.create(time_slot_id=7, start_time='07:30', end_time='08:00', date="2022-07-27", user_id_id=1)
     return HttpResponse("success")
+
 
 def create_room_table(request):
     Room.objects.create(room_id=1007, zone=1)
     return HttpResponse("success")
 
+
 def create_zone_table(request):
-    Zone.objects.create(zone_id=1, zone_data="asdasdsda")
+    Zone.objects.create(zone_id=2, zone_data="asdasdsda")
     return HttpResponse("success")
 
+
 class Submitdatepickerform(forms.Form):
-    date_selected = forms.DateField(widget=forms.HiddenInput(),initial="value")
-    start_time_of_slot = forms.TimeField(widget=forms.HiddenInput(),initial="value")
-    end_time_of_slot = forms.TimeField(widget=forms.HiddenInput(),initial="value")
+    date_selected = forms.DateField(widget=forms.HiddenInput(), initial="value")
+    start_time_of_slot = forms.TimeField(widget=forms.HiddenInput(), initial="value")
+    end_time_of_slot = forms.TimeField(widget=forms.HiddenInput(), initial="value")
+
 
 class Selectdateform(forms.ModelForm):
-  class Meta:
-    model = TimeSlot
-    exclude = ('end_time', 'start_time', 'user_id', 'time_slot_id')
+    class Meta:
+        model = TimeSlot
+        exclude = ('end_time', 'start_time', 'user_id', 'time_slot_id')
+
 
 def schedule(request):
     if request.method == 'POST':
@@ -150,7 +194,7 @@ def schedule(request):
                         request, 'Date should be upcoming (today, tomorrow or later)')
                     formatted_date = datetime.now().date()
                     return render_values(request, formatted_date)
-                #check if date_posted is in weekend
+                # check if date_posted is in weekend
                 elif date_posted.isoweekday() in (7, 6):
                     messages.error(
                         request, 'Date should not be in weekends (sat or sun)')
@@ -193,7 +237,7 @@ def schedule(request):
             return render_values(request, formatted_date)
     # if section:for getting the date submitted by user and initialize the data to be shown
     if request.method == "GET" and isLogin(request):
-        #if the link is with parameters, meaning it is not the first time visiting the webpage(date is selected and sent)
+        # if the link is with parameters, meaning it is not the first time visiting the webpage(date is selected and sent)
         if len(request.GET.keys()) != 0:
             form = Selectdateform(request.GET)
             if form.is_valid():
@@ -205,14 +249,12 @@ def schedule(request):
                 messages.error(request, 'Sql injections not allowed')
                 return render_values(request, formatted_date)
         else:
-            #else section:for the first time to enter the webpage
+            # else section:for the first time to enter the webpage
             # set the date of today as the default date when entering the webpage
             formatted_date = datetime.now().date()
             return render_values(request, formatted_date)
     elif not isLogin(request):
         return render(request, 'main/login.html');
-
-
 
 
 def render_values(request, formatted_date):
@@ -225,6 +267,7 @@ def render_values(request, formatted_date):
                   {'timeslots': return_value['timeslots'],
                    'formatted_date': return_value['formatted_date'],
                    'date_select_form': date_select_form})
+
 
 def timeslot_list():
     timeslots = [{"startTime": '17:00', "endTime": '17:30', "period": '17:00 – 17:30'},
@@ -241,6 +284,7 @@ def timeslot_list():
                  ]
     return timeslots
 
+
 def timedata_validation(validate_starttime_value, validate_endtime_value):
     # get the timeslots defined by calling the function
     timeslots = timeslot_list()
@@ -249,6 +293,7 @@ def timedata_validation(validate_starttime_value, validate_endtime_value):
         if eachRow["startTime"] == validate_starttime_value and eachRow["endTime"] == validate_endtime_value:
             return True
     return False
+
 
 def loading_validation(formatted_date):
     # check if the date selected is in weekend or in the past
@@ -261,7 +306,7 @@ def loading_validation(formatted_date):
         if formatted_date.isoweekday() == 6:
             # formatted_date == monday of next week
             formatted_date = datetime.today() + timedelta(days=2)
-            #covert date format(object to string)
+            # covert date format(object to string)
             formatted_date = formatted_date.strftime('%Y-%m-%d')
             # covert date format(string to object) and convert datetime object to date object
             formatted_date = datetime.strptime(
