@@ -7,13 +7,13 @@
 Steps for connecting website and row:
 
 1.Open one terminal in ubuntu, run the commands below
-——source /opt/ros/noetic/setup.bash
-——source /opt/ros/galactic/setup.bash
+##source /opt/ros/noetic/setup.bash
+##source /opt/ros/galactic/setup.bash
     messages:ROS_DISTRO was set to 'noetic' before. Please make sure that the environment does not mix paths from different distributions.
     messages:ROS_DISTRO was set to 'galactic' before. Please make sure that the environment does not mix paths from different distributions.
-——source ~/dev_ws/install/local_setup.sh
-——export ROS_MASTER_URL=http://localhost:11311
-——ros2 run ros1_bridge dynamic_bridge
+##source ~/dev_ws/install/local_setup.sh
+##export ROS_MASTER_URL=http://localhost:11311
+##ros2 run ros1_bridge dynamic_bridge
    messages: created 2to1 bridge for topic '/rosout' with ROS 2 type 'rcl_interfaces/msg/Log' and ROS 1 type 'rosgraph_msgs/Log'
 
 
