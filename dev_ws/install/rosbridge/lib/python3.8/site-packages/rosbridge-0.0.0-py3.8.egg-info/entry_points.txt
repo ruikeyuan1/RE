@@ -1,0 +1,4 @@
+[console_scripts]
+room_directing = rosbridge.room_directing:main
+rosbridge_listener = rosbridge.rosbridge_listener:main
+
