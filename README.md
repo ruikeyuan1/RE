@@ -18,12 +18,12 @@ Steps for connecting website and row:
 
 
 2.In the second terminal run:
-——source /opt/ros/noetic/setup.bash
-——roslaunch rosbridge_server rosbridge_websocket.launch
+- source /opt/ros/noetic/setup.bash
+—roslaunch rosbridge_server rosbridge_websocket.launch
 
 3.In the third terminal run:
-——source /opt/ros/galactic/setup.bash
-——ros2 run rosbridge  rosbridge_listener
+—source /opt/ros/galactic/setup.bash
+—ros2 run rosbridge  rosbridge_listener
 
 4.In the forth terminal run:
 ——source /opt/ros/galactic/setup.bash
