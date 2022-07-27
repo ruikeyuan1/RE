@@ -16,8 +16,8 @@ This web socket has to be installed after the ros1 is installed.
     *messages:ROS_DISTRO was set to 'galactic' before. Please make sure that the environment does not mix paths from different distributions.*<br /><br/>
 - source ~/dev_ws/install/local_setup.sh
 - export ROS_MASTER_URL=http://localhost:11311
-- ros2 run ros1_bridge dynamic_bridge
-   messages: created 2to1 bridge for topic '/rosout' with ROS 2 type 'rcl_interfaces/msg/Log' and ROS 1 type 'rosgraph_msgs/Log'
+- ros2 run ros1_bridge dynamic_bridge <br>
+   *messages: created 2to1 bridge for topic '/rosout' with ROS 2 type 'rcl_interfaces/msg/Log' and ROS 1 type 'rosgraph_msgs/Log'*
 
 
 ## 2.In the second terminal run:
