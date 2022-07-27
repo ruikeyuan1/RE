@@ -4,7 +4,7 @@
 !!Django has to be installed with the virual environment set up, the complete website(N1HL) is in the master branch.
 
 
-# Steps for connecting website and row:
+# Steps for connecting website and ros:
 
 ## 1.Open one terminal in ubuntu, run the commands below
 - source /opt/ros/noetic/setup.bash
