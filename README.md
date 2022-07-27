@@ -9,9 +9,8 @@
 ## 1.Open one terminal in ubuntu, run the commands below
 - source /opt/ros/noetic/setup.bash
 - source /opt/ros/galactic/setup.bash
-    *messages:ROS_DISTRO was set to 'noetic' before. Please make sure that the environment does not mix paths from different distributions.*
-    *
-    messages:ROS_DISTRO was set to 'galactic' before. Please make sure that the environment does not mix paths from different distributions.*
+    *messages:ROS_DISTRO was set to 'noetic' before. Please make sure that the environment does not mix paths from different distributions.*<br />
+    *messages:ROS_DISTRO was set to 'galactic' before. Please make sure that the environment does not mix paths from different distributions.*<br />
 - source ~/dev_ws/install/local_setup.sh
 - export ROS_MASTER_URL=http://localhost:11311
 - ros2 run ros1_bridge dynamic_bridge
@@ -29,7 +28,7 @@
 
 ## 4.In the forth terminal run:
 
-- source /opt/ros/galactic/setup.bash
+-source /opt/ros/galactic/setup.bash
 - ros2 run rosbridge room_directing
 
-5.Open the website in pycharm and run the page
+## 5.Open the website in pycharm and run the page
