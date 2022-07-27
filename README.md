@@ -2,7 +2,7 @@
 
 !!Before testing, you need to install ros1 (version:noetic) noetic and ros2 (version:galactic),and you need to know how to use Ros2, No python(ros) file is written in ros1 in this project as ros1 is only used as a way of communicating here.
 !!Django has to be installed with the virual environment set up, the complete website(N1HL) is in the master branch.
-!!There is a instruction video for connecting website and ros in this branch.
+
 
 Steps for connecting website and row:
 
