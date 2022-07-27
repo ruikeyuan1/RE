@@ -1,7 +1,7 @@
 # RE
 !The python code for ros2 is in dev_ws folder<br />
 !!Before testing, you need to install ros1 (version:noetic) noetic and ros2 (version:galactic),and you need to know how to use Ros2.<br />No python(ros) file is written in ros1 in this project as ros1 is only used as a way of communicating here.<br />
-!!Django has to be installed with the virual environment set up, the complete website(N1HL) is in the master branch.
+!!Django has to be installed with the virual environment set up, the complete website(N1HL) is in the master branch.<br />
 !The communication between ros1 and ros2 is through rosBridge web socket, more information about this can be found here:
 https://wiki.ros.org/rosbridge_suite<br />
 This web socket has to be installed after the ros1 is installed.
