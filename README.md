@@ -23,8 +23,8 @@
 
 ## 3.In the third terminal run:
 
-— source /opt/ros/galactic/setup.bash
-— ros2 run rosbridge  rosbridge_listener
+- source /opt/ros/galactic/setup.bash
+- ros2 run rosbridge  rosbridge_listener
 
 ## 4.In the forth terminal run:
 
