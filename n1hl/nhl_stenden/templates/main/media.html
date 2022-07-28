@@ -66,7 +66,7 @@
             str.data = 'forward';
             testStr.publish(str);
 
-            cmdVel.publish(twist);//tringi发布twist消息&&Post a twist message
+            cmdVel.publish(twist);//Post a twist message
             twist.linear.x = twist.linear.x + 1;
             twist.linear.y = twist.linear.y + 0;
             twist.linear.z = twist.linear.z + 0;
@@ -75,7 +75,7 @@
             twist.angular.z = twist.angular.z + 0;
         }
 
-        function back()//在点击”Publish”按钮后发布消息，并对消息进行更改&Publish a message and make changes to the message after clicking the "Publish" button
+        function back()//Publish a message and make changes to the message after clicking the "Publish" button
         {
             document.getElementById("output").innerHTML = ('back message sent');
             str.data = 'back';
