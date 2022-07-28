@@ -81,7 +81,7 @@
             str.data = 'back';
             testStr.publish(str);
 
-            cmdVel.publish(twist);//发布twist消息
+            cmdVel.publish(twist);//publish twist message
             twist.linear.x = twist.linear.x - 1;
             twist.linear.y = twist.linear.y + 0;
             twist.linear.z = twist.linear.z + 0;
@@ -95,7 +95,7 @@
             str.data = 'stop';
             testStr.publish(str);
 
-            cmdVel.publish(twist);//发布twist消息
+            cmdVel.publish(twist);//publish twist message
             twist.linear.x = twist.linear.x + 0;
             twist.linear.y = twist.linear.y + 0;
             twist.linear.z = twist.linear.z + 0;
@@ -109,7 +109,7 @@
             str.data = 'turnLeft';
             testStr.publish(str);
 
-            cmdVel.publish(twist);//发布twist消息
+            cmdVel.publish(twist);//publish twist message
             twist.linear.x = twist.linear.x + 0.5;
             twist.linear.y = twist.linear.y + 0;
             twist.linear.z = twist.linear.z + 0;
@@ -123,7 +123,7 @@
             str.data = 'turnRight';
             testStr.publish(str);
 
-            cmdVel.publish(twist);//发布twist消息
+            cmdVel.publish(twist);//publish twist message
             twist.linear.x = twist.linear.x + 0.5;
             twist.linear.y = twist.linear.y + 0;
             twist.linear.z = twist.linear.z + 0;
@@ -137,16 +137,16 @@
             ros: ros,
             name: '/ros2pub',
             messageType: 'std_msgs/String'
-        });//创建一个topic,它的名字是'/chatter',,消息类型是'std_msgs/String'
+        });//Create a topic whose name is '/ros2pub', and the message type is 'std_msgs/String'
 
-        function subscribe()//在点击”Subscribe”按钮后订阅'/chatter'的消息，并将其显示到网页中
+        function subscribe()//Subscribe to '/ros2pub' messages after clicking the 'Subscribe' button and display it on the web page
         {
             listener.subscribe(function (message) {
                 document.getElementById("output").innerHTML = ('Received message on ' + listener.name + ': ' + message.data);
             });
         }
 
-        function unsubscribe()//在点击”Unsubscribe”按钮后取消订阅'/chatter'的消息
+        function unsubscribe()//Unsubscribe from '/chatter' messages after clicking the 'Unsubscribe' button
         {
             listener.unsubscribe();
         }
