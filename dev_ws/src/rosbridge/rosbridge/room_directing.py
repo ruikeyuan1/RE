@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""
-@说明: ROS2话题示例-订阅“Hello World”话题消息
-"""
+
 
 
 
@@ -11,9 +9,7 @@ import rclpy  # ROS2 Python interface library
 from rclpy.node import Node  # ROS2 node class
 from std_msgs.msg import String  # String message defined by the ROS2 standard
 
-"""
-创建一个订阅者节点
-"""
+
 
 
 
